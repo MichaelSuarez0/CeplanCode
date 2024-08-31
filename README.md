@@ -6,8 +6,7 @@ Este repositorio es para el source code de las aplicaciones. Aquí las puedes ve
 
 
 automatizacionV2 (obsoleta): https://ceplancode-1.onrender.com/automatizacionV2
-
 automatizacionV3 (actual): https://ceplancode-av3.streamlit.app/
 
 
-Contáctame si necesitas ayuda o deseas aprender más sobre mi trabajo :)
+Contáctame para cualquier ayuda adicional:)
