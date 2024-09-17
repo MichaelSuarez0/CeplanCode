@@ -21,7 +21,7 @@ faq_app = {
     "**¿Qué es esto?**": """
 Para que los visitantes del Observatorio Nacional de Prospectiva sean redirigidos a la página web correspondiente luego de hacer clic a una cita, es necesario agregar un formato html a las citas.
 Normalmente, los encargados de actualizar el Observatorio lo hacemos de forma manual, una por una, lo cual es una tarea tediosa y repetitiva.
-Esta aplicación se encarga de automatizar este proceso 🙂.
+Esta aplicación, entre otras funciones, se encarga de automatizar este proceso 🙂.
 """,
 "**¿Qué cambios le hace a mi texto, exactamente?**": """
 La función primaria de la aplicación es añadir el formato correspondiente para generar hipervínculos en las citas.
@@ -30,12 +30,12 @@ No obstante, la aplicación tiene otras mejoras de calidad de vida. Esta es una 
     - Añade el formato correspondiente (html) para generar hipervínculos en las citas.
     - Elimina las líneas que comienzan con Figura, Tabla o Nota, ya que esto se coloca en una sección aparte en el Observatorio.
     - Devuelve el orden en el cual poner las Figuras y Tablas.
-    - Elimina espacios en blanco adicionales que pueden afectar la funcionalidad "Nuevo Bloque" del Observatorio.
+    - Elimina espacios en blanco adicionales al final de un párrafo que pueden afectar la funcionalidad "Nuevo Bloque" del Observatorio.
 - A las referencias
     - Quita los puntos finales a los links que aparecen por defecto al ser copiados de Word.
     - Elimina los "Available: " o "Disponible en ".
 """,
-    "**Ok, quiero subir una ficha, ¿qué requisitos o qué debo tomar en cuenta antes de copiar mi texto?**": """
+    "**Ok, quiero actualizar una ficha, ¿qué requisitos o qué debo tomar en cuenta antes de copiar mi texto?**": """
 - Sobre tu texto:
     - Debes eliminar el título y la sumilla antes de insertar el texto, ya que ellos se modifican en otro apartado del Observatorio.
     - Debes eliminar los gráficos y las tablas, ya que estos se agregan en la sección de gráficos del Observatorio.
@@ -45,11 +45,16 @@ No obstante, la aplicación tiene otras mejoras de calidad de vida. Esta es una 
         - Para ello, el tipo de fuente bibliográfica de tus referencias debe ser o "Sitio Web" o "Documento de Sitio Web". 
         - No se generarán hipervínculos para las citas que no tienen link, así que se quedarán como texto.
 """,
-"**Tengo un problema con la aplicación y no sé cómo resolverlo**": """
+    "**Solo quiero hacer cambios menores a una ficha, ¿también me ayudará esta aplicación?**": """
+Depende de la magnitud de los cambios, pero por lo general no. Correcciones ortográficas . Agregar párrafos o citas
+""",
+ "**¿No es mejor que se integre una funcionalidad así dentro del código del Observatorio?**": """
+Sí, eso es lo ideal, pero eso escapa de mis habilidades.
+""",
+"**Tengo o he encontrado un problema con la aplicación y no sé cómo resolverlo**": """
 Oh no. Por favor contáctame 
 - Teams: Michael Salvador Suárez Patilongo
 - Correo: msuarez@ceplan.gob.pe
-
 """,
 "**¿Cómo funciona esta aplicación? ¿Con qué lenguaje?**": """
 Tanto el funcionamiento interno (backend) como el desarrollo web (frontend) fue hecho con Python.
@@ -64,7 +69,7 @@ En particular, el frontend se desarrolló con la librería Streamlit.
 
 faq_obs = {
     "**¿No es mejor que se integre una funcionalidad así dentro del código del Observatorio?**": """
-Sí, eso es lo ideal. Pero yo personalmente no sé cómo hacerlo. Soy politólogo.
+Sí, eso es lo ideal, pero eso escapa de mis habilidades.
 """,
     "Tengo un problema para subir ": """
 - Ve a la sección 'Mis pedidos' en tu perfil.
@@ -84,11 +89,11 @@ for question, answer in faq_app.items():
     with st.expander(question):
         st.markdown(answer)
 
-st.subheader("Sobre el Observatorio")
+#st.subheader("Sobre el Observatorio")
 # Mostrar preguntas y respuestas
-for question, answer in faq_obs.items():
-    with st.expander(question):
-        st.markdown(answer)
+#for question, answer in faq_obs.items():
+#    with st.expander(question):
+#        st.markdown(answer)
 
 
 # Sección de búsqueda de preguntas
@@ -97,7 +102,7 @@ st.header("🔎 Buscar Preguntas")
 search_query = st.text_input("Introduce tu pregunta aquí:", "")
 
 if search_query:
-    matching_faq = {q: a for q, a in faq_obs.items() if search_query.lower() in q.lower()}
+    matching_faq = {q: a for q, a in faq_app.items() if search_query.lower() in q.lower()}
     if matching_faq:
         for question, answer in matching_faq.items():
             with st.expander(question):

@@ -1,15 +1,49 @@
-import streamlit as st
 import re
 import random
+import streamlit as st
+import streamlit.components.v1 as components
 
 st.set_page_config(
     page_title="App_Observatorio",
     page_icon="✏️",
 )
 
+
+# hola = """
+# <style>
+# [data-testid="stSidebarContent"]{
+# background-color: #19F;
+# opacity: 0.8
+
+# }
+# </style>
+# """
+#st.markdown(hola, unsafe_allow_html=True)
+
+
+# html_code = """
+# <!DOCTYPE html>
+# <html>
+# <head>
+#     <style>
+#         h1 { color: blue; }
+#         p { color: green; }
+#     </style>
+# </head>
+# <body>
+#     <h1>Hola desde un componente HTML</h1>
+#     <p>Este es un párrafo con estilo.</p>
+# </body>
+# </html>
+# """
+
+#components.html(html_code, height=300) 
+
+
 # streamlit run c:\Users\SALVADOR\OneDrive\CEPLAN\CeplanPythonCode\automatizacionV3\automatizacionV3.py
 
 # Funciones
+
 # def extraer_referencias(texto_referencias):
 #     url_a_extraer = re.compile(r'\[(\d+)\]\s+.*?(https?://[^\s\]]+)', re.DOTALL | re.IGNORECASE)
 #     referencias = {}
@@ -78,8 +112,8 @@ def crear_hipervinculo(text, referencias):
 
 # Juego de imágenes
 imagenes = [
-    ("https://raw.githubusercontent.com/MichaelSuarez0/CeplanCode/main/ceplan_logo.png", 0.85),
-    ("https://raw.githubusercontent.com/MichaelSuarez0/CeplanCode/main/con_punche_peru_logo.jpg", 0.15) 
+    ("https://raw.githubusercontent.com/MichaelSuarez0/CeplanCode/main/imagenes/ceplan_logo.png", 0.85),
+    ("https://raw.githubusercontent.com/MichaelSuarez0/CeplanCode/main/imagenes/con_punche_peru_logo.jpg", 0.15) 
 ]
 
 # Genera un número aleatorio solo una vez

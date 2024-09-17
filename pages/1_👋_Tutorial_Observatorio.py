@@ -46,7 +46,12 @@ Si tienes alguna pregunta o necesitas ayuda, no dudes en contactarme, para eso e
 ¡Buena suerte con tu publicación!
 """
 
-st.markdown(markdown_content)
+markdown_content2 = '''
+## Próximamente 🛠️
+
+'''
+
+
 
 placeholder_text= '''
 Para el año 2035, se proyecta que alrededor del 35 % de los adultos peruanos serán obesos. Según datos de 2023, el Perú experimentó un incremento significativo en las tasas de obesidad y sobrepeso en la población adulta: la obesidad afectaba al 26,3 % de la población adulta en las zonas urbanas, y al 14 % de la población en las zonas rurales. Asimismo, el sobrepeso afectaba al 38,2 % de la población urbana y al 32,9 % de la población rural. Los niveles más altos se registraron en Lima Metropolitana, donde el 27,5 % de los habitantes padecía obesidad y el 39,6 % tenía sobrepeso. A escala global, se espera que más del 50 % de la población mundial se vea afectada por el sobrepeso y la obesidad.
@@ -102,6 +107,7 @@ Bibliografía
 '''
 
 # Streamlit UI
+st.markdown(markdown_content2)
 st.sidebar.header("Placeholder")
 st.sidebar.subheader("Texto de prueba")
 st.sidebar.code(placeholder_text)
