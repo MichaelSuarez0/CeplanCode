@@ -28,6 +28,7 @@ La función primaria de la aplicación es añadir el formato correspondiente par
 No obstante, la aplicación tiene otras mejoras de calidad de vida. Esta es una lista completa de los cambios que hace:
 - Al contenido
     - Añade el formato correspondiente (html) para generar hipervínculos en las citas.
+    - Añade el formato correspondiente para que el hipervínculo se abra en otra pestaña.
     - Elimina las líneas que comienzan con Figura, Tabla o Nota, ya que esto se coloca en una sección aparte en el Observatorio.
     - Devuelve el orden en el cual poner las Figuras y Tablas.
     - Elimina espacios en blanco adicionales al final de un párrafo que pueden afectar la funcionalidad "Nuevo Bloque" del Observatorio.

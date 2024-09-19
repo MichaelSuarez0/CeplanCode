@@ -39,8 +39,11 @@ st.set_page_config(
 
 #components.html(html_code, height=300) 
 
-
+# Casa
 # streamlit run c:\Users\SALVADOR\OneDrive\CEPLAN\CeplanPythonCode\automatizacionV3\automatizacionV3.py
+
+# Oficina
+# streamlit run C:\Users\msuarez\Desktop\OneDrive\CEPLAN\CeplanPythonCode\automatizacionV3\automatizacionV3.py
 
 # Funciones
 
@@ -103,7 +106,7 @@ def crear_hipervinculo(text, referencias):
         for number in numbers:
             number = int(number.strip())
             if number in referencias and referencias[number]:
-                links.append(f'<a href="{referencias[number]}">[{number}]</a>')
+                links.append(f'<a href="{referencias[number]}" target="_blank">[{number}]</a>') # Ahora los links se abren en una pestaña distinta para ser más amigable con el usuario
             else:
                 links.append(f'[{number}]')
         return ' '.join(links)
@@ -131,7 +134,7 @@ for imagen_url, probabilidad in imagenes:
 
 # Streamlit UI
 st.sidebar.image(url, width=280)
-#st.sidebar.write(numero_aleatorio)
+st.sidebar.write(numero_aleatorio)
 st.sidebar.header("Aquí podrás copiar pasando tu cursor")
 st.title('Aplicación para procesar texto (Observatorio)')
 
@@ -149,8 +152,16 @@ if boton_procesar:
     texto_procesado, items_eliminados = procesar_parrafos(input_text_main)
     texto_con_hipervinculos = crear_hipervinculo(texto_procesado, referencias_internas)
 
-    st.text_area("Texto con hipervínculos:", texto_con_hipervinculos, height = 320)
+    texto_centrado = f"""
+    <div style="text-align: center;">
+    {texto_con_hipervinculos}
+    </div>
+    """
+
+    st.text_area("Texto con hipervínculos:", texto_con_hipervinculos, height = 350)
     st.text_area("Referencias limpias", referencias_limpias, height = 290)
+    #st.markdown(texto_centrado, unsafe_allow_html=True)
+    #st.markdown("hola", unsafe_allow_html=True)
 
     # Filtrar para excluir notas del orden de las figuras
     patron_nota = re.compile(r'Nota')
