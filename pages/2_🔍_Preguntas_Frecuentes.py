@@ -30,8 +30,9 @@ No obstante, la aplicación tiene otras mejoras de calidad de vida. Esta es una 
     - Añade el formato correspondiente (html) para generar hipervínculos en las citas.
     - Añade el formato correspondiente para que el hipervínculo se abra en otra pestaña.
     - Elimina las líneas que comienzan con Figura, Tabla o Nota, ya que esto se coloca en una sección aparte en el Observatorio.
+    - Elimina el contenido dentro de las Tablas.
     - Devuelve el orden en el cual poner las Figuras y Tablas.
-    - Elimina espacios en blanco adicionales al final de un párrafo que pueden afectar la funcionalidad "Nuevo Bloque" del Observatorio.
+    - Elimina espacios en blanco adicionales al final de un párrafo que pueden afectar la funcionalidad "Nuevo Bloque" del Observatorio.)
 - A las referencias
     - Quita los puntos finales a los links que aparecen por defecto al ser copiados de Word.
     - Elimina los "Available: " o "Disponible en ".
@@ -39,20 +40,23 @@ No obstante, la aplicación tiene otras mejoras de calidad de vida. Esta es una 
     "**Ok, quiero actualizar una ficha, ¿qué requisitos o qué debo tomar en cuenta antes de copiar mi texto?**": """
 - Sobre tu texto:
     - Debes eliminar el título y la sumilla antes de insertar el texto, ya que ellos se modifican en otro apartado del Observatorio.
+    - Si optas por dejar la sumilla, deberás desactivarla, ya que la sumilla se agrega en otra sección (editando la ficha en sí misma).
     - Debes eliminar los gráficos y las tablas, ya que estos se agregan en la sección de gráficos del Observatorio.
 - Sobre tus referencias
     - Deben estar en formato IEE.
-    - Idealmente, deben tener un link visible. 
+    - Verifica que tengan un link visible.
+        - NO se generarán hipervínculos para las referencias que no tienen link, así que se quedarán como texto.
         - Para ello, el tipo de fuente bibliográfica de tus referencias debe ser o "Sitio Web" o "Documento de Sitio Web". 
-        - No se generarán hipervínculos para las citas que no tienen link, así que se quedarán como texto.
+        - Toma nota que, al convertir de APA a IEE, Word suele convertir el formato de tus referencias, a veces ocultando los links, por ello es importante la línea de arriba.
+        
 """,
     "**Solo quiero hacer cambios menores a una ficha, ¿también me ayudará esta aplicación?**": """
-Depende de la magnitud de los cambios, pero por lo general no. Correcciones ortográficas . Agregar párrafos o citas
+Por lo general, la página se aprovecha más para modificar toda la ficha, pero puedes optar por insertar solo los párrafos que quieres modificar en la casilla de texto.
 """,
  "**¿No es mejor que se integre una funcionalidad así dentro del código del Observatorio?**": """
 Sí, eso es lo ideal, pero eso escapa de mis habilidades.
 """,
-"**Tengo o he encontrado un problema con la aplicación y no sé cómo resolverlo**": """
+"**He encontrado un problema con la aplicación y no sé cómo resolverlo**": """
 Oh no. Por favor contáctame 
 - Teams: Michael Salvador Suárez Patilongo
 - Correo: msuarez@ceplan.gob.pe
@@ -111,16 +115,6 @@ if search_query:
     else:
         st.write("No se encontraron coincidencias. Por favor, intenta con otras palabras clave.")
 
-# Sección para hacer preguntas adicionales
-st.header("❓ ¿No encontraste tu respuesta?")
-
-additional_question = st.text_area("Escribe tu pregunta aquí:", "")
-
-if st.button("Enviar Pregunta"):
-    if additional_question:
-        st.success("Gracias por tu pregunta. Nos pondremos en contacto contigo pronto.")
-    else:
-        st.warning("Por favor, escribe tu pregunta antes de enviarla.")
 
 # Nota de cierre
 st.markdown("""
