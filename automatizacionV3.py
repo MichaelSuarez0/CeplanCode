@@ -8,115 +8,88 @@ st.set_page_config(
     page_icon="✏️",
 )
 
-
-# hola = """
-# <style>
-# [data-testid="stSidebarContent"]{
-# background-color: #19F;
-# opacity: 0.8
-
-# }
-# </style>
-# """
-#st.markdown(hola, unsafe_allow_html=True)
-
-
-# html_code = """
-# <!DOCTYPE html>
-# <html>
-# <head>
-#     <style>
-#         h1 { color: blue; }
-#         p { color: green; }
-#     </style>
-# </head>
-# <body>
-#     <h1>Hola desde un componente HTML</h1>
-#     <p>Este es un párrafo con estilo.</p>
-# </body>
-# </html>
-# """
-
-#components.html(html_code, height=300) 
-
-# Casa
-# streamlit run c:\Users\SALVADOR\OneDrive\CEPLAN\CeplanPythonCode\automatizacionV3\automatizacionV3.py
-
-# Oficina
-# streamlit run C:\Users\msuarez\Desktop\OneDrive\CEPLAN\CeplanPythonCode\automatizacionV3\automatizacionV3.py
-
-# Funciones
-
-# def extraer_referencias(texto_referencias):
-#     url_a_extraer = re.compile(r'\[(\d+)\]\s+.*?(https?://[^\s\]]+)', re.DOTALL | re.IGNORECASE)
-#     referencias = {}
-#     for match in pattern.finditer(texto_referencias):
-#         number = int(match.group(1))
-#         url = match.group(2)
-#         referencias[number] = url
-#     return referencias    
-
+# Función para procesar referencias y extraer URLs
 def procesar_referencias(texto_referencias):
     lines = texto_referencias.splitlines()
     patron_a_limpiar = re.compile(r'\b(Available|Disponible en):?\s*|(\.\s*)$', re.IGNORECASE)
     patron_a_extraer = re.compile(r'\[(\d+)\].*?(https?://[^\s\]]+)')
-    
+
     referencias_limpias = []
     referencias_internas = {}
-    
+
     for line in lines:
         referencia_limpia = re.sub(patron_a_limpiar, '', line).strip()
         referencias_limpias.append(referencia_limpia)
-        
+
         match = patron_a_extraer.search(referencia_limpia)
         if match:
             numero = int(match.group(1))
             url = match.group(2)
             referencias_internas[numero] = url
-    
+
     texto_limpio = '\n'.join(referencias_limpias)
     return texto_limpio, referencias_internas
 
-
+# Función para procesar párrafos y eliminar los que comienzan con "Tabla" hasta que se encuentre "Nota"
 def procesar_parrafos(text):
     paragraphs = text.split('\n')
-    patron_eliminar_figuras = re.compile(r'^(Nota?|Figura|Tabla)(\s+\d+)?.*$')
+    patron_eliminar_figuras = re.compile(r'^(Nota?|Figura)(\s+\d+)?.*$')
+    patron_tabla = re.compile(r'^Tabla(\s+\d+)?.*$', re.IGNORECASE)
+    patron_nota = re.compile(r'^Nota(\s*)?.*$', re.IGNORECASE)
+
     filtered_lines = []
     removed_items = []
+    eliminar = False
     paragraph_index = 0
-    
+
     for paragraph in paragraphs:
         paragraph = paragraph.strip()  # Eliminar espacios en blanco al principio y al final
+
+        if patron_tabla.match(paragraph):
+            removed_items.append((paragraph_index, paragraph))
+            eliminar = True  # Inicia el proceso de eliminación
+            continue  # Saltar este párrafo
+
+        if patron_nota.match(paragraph):
+            eliminar = False  # Termina el proceso de eliminación
+            continue  # Saltar este párrafo y no eliminarlo
+
+        if eliminar:
+            continue  # Saltar párrafos sin modificar el índice ni agregarlos a removed_items
+
         if patron_eliminar_figuras.match(paragraph):
             removed_items.append((paragraph_index, paragraph))
         elif paragraph:  # Si el párrafo existe y no está vacío
-            paragraph_index += 1
             filtered_lines.append(paragraph)
-        else:
-            continue
+            paragraph_index += 1
 
+    # Unir los párrafos y eliminar solo el último punto, si existe
     processed_text = '\n'.join(filtered_lines)
+    if processed_text.endswith('.'):
+        processed_text = processed_text[:-1]  # Eliminar solo el último punto
     return processed_text, removed_items
 
+# Función para crear hipervínculos en el texto
 def crear_hipervinculo(text, referencias):
     pattern = re.compile(r'\[([\d,\s]+)\]')
+
     def replacement(match):
         numbers = match.group(1).split(',')
         links = []
         for number in numbers:
             number = int(number.strip())
             if number in referencias and referencias[number]:
-                links.append(f'<a href="{referencias[number]}" target="_blank">[{number}]</a>') # Ahora los links se abren en una pestaña distinta para ser más amigable con el usuario
+                links.append(f'<a href="{referencias[number]}" target="_blank">[{number}]</a>')
             else:
                 links.append(f'[{number}]')
         return ' '.join(links)
-    return re.sub(pattern, replacement, text)
 
+    return re.sub(pattern, replacement, text)
 
 # Juego de imágenes
 imagenes = [
     ("https://raw.githubusercontent.com/MichaelSuarez0/CeplanCode/main/imagenes/ceplan_logo.png", 0.85),
-    ("https://raw.githubusercontent.com/MichaelSuarez0/CeplanCode/main/imagenes/con_punche_peru_logo.jpg", 0.15) 
+    ("https://raw.githubusercontent.com/MichaelSuarez0/CeplanCode/main/imagenes/con_punche_peru_logo.jpg", 0.15)
 ]
 
 # Genera un número aleatorio solo una vez
@@ -138,7 +111,6 @@ st.sidebar.write(numero_aleatorio)
 st.sidebar.header("Aquí podrás copiar pasando tu cursor")
 st.title('Aplicación para procesar texto (Observatorio)')
 
-
 # Input fields
 input_text_main = st.text_area('Inserta el texto aquí', height=200)
 input_text_referencias = st.text_area('Inserta las referencias aquí', height=190)
@@ -158,10 +130,8 @@ if boton_procesar:
     </div>
     """
 
-    st.text_area("Texto con hipervínculos:", texto_con_hipervinculos, height = 350)
-    st.text_area("Referencias limpias", referencias_limpias, height = 290)
-    #st.markdown(texto_centrado, unsafe_allow_html=True)
-    #st.markdown("hola", unsafe_allow_html=True)
+    st.text_area("Texto con hipervínculos:", texto_con_hipervinculos, height=350)
+    st.text_area("Referencias limpias", referencias_limpias, height=290)
 
     # Filtrar para excluir notas del orden de las figuras
     patron_nota = re.compile(r'Nota')
@@ -174,6 +144,6 @@ if boton_procesar:
 
     # UI (sidebar)
     st.sidebar.write("Texto")
-    st.sidebar.code(texto_con_hipervinculos, language = "text")
+    st.sidebar.code(texto_con_hipervinculos, language="text")
     st.sidebar.write("Referencias")
-    st.sidebar.code(referencias_limpias, language = "text")
+    st.sidebar.code(referencias_limpias, language="text")
