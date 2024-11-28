@@ -32,7 +32,7 @@ def main():
     st.title("Consulta de Correos IMAP")
 
     # Inputs de usuario: campos para IMAP_SERVER, USERNAME, PASSWORD y IMAP_PORT
-    imap_server = st.text_input("Servidor IMAP", value="imap.gmail.com")  # El valor por defecto es para Gmail
+    imap_server = st.text_input("Servidor IMAP", value="mail.ceplan.gob.pe")  # El valor por defecto es para Gmail
     username = st.text_input("Correo electrónico (Username)")
     password = st.text_input("Contraseña", type="password")
     imap_port = st.number_input("Puerto IMAP", value=993, step=1)  # Puerto predeterminado es 993 para IMAP seguro
