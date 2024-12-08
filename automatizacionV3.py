@@ -11,8 +11,8 @@ st.set_page_config(
 # Función para procesar referencias y extraer URLs
 def procesar_referencias(texto_referencias):
     lines = texto_referencias.splitlines()
-    patron_a_limpiar = re.compile(r'\b(Available|Disponible en):?\s*|(\.\s*)$', re.IGNORECASE)
-    patron_a_extraer = re.compile(r'\[(\d+)\].*?(https?://[^\s\]]+)')
+    patron_a_limpiar = re.compile(r'\bAvailable:?\s*|(\.\s*)$', re.IGNORECASE)
+    patron_a_extraer = re.compile(r'\[(\d+)\].*?(https?://[^\s\[\]]+)')
 
     referencias_limpias = []
     referencias_internas = {}
@@ -57,6 +57,10 @@ def procesar_parrafos(text):
         if eliminar:
             continue  # Saltar párrafos sin modificar el índice ni agregarlos a removed_items
 
+        # Asegurarse de que el párrafo termine con un punto final
+        if paragraph and not paragraph.endswith('.'):
+            paragraph += '.'  # Añadir un punto final si no lo tiene
+
         if patron_eliminar_figuras.match(paragraph):
             removed_items.append((paragraph_index, paragraph))
         elif paragraph:  # Si el párrafo existe y no está vacío
@@ -66,7 +70,20 @@ def procesar_parrafos(text):
     # Unir los párrafos y eliminar solo el último punto, si existe
     processed_text = '\n'.join(filtered_lines)
     if processed_text.endswith('.'):
-        processed_text = processed_text[:-1]  # Eliminar solo el último punto
+        processed_text = processed_text[:-1]  # Eliminar solo el punto final del último párrafo (el Obs lo genera automáticamente)
+
+    # Normalizar caracteres especiales
+    processed_text = re.sub(
+        r'[⁰¹²³⁴⁵⁶⁷⁸⁹₀₁₂₃₄₅₆₇₈₉]',
+        lambda m: {
+            '⁰': '0', '¹': '1', '²': '2', '³': '3', '⁴': '4', '⁵': '5',
+            '⁶': '6', '⁷': '7', '⁸': '8', '⁹': '9', '₀': '0', '₁': '1',
+            '₂': '2', '₃': '3', '₄': '4', '₅': '5', '₆': '6', '₇': '7',
+            '₈': '8', '₉': '9'
+        }[m.group(0)],
+        processed_text
+    )
+
     return processed_text, removed_items
 
 # Función para crear hipervínculos en el texto
